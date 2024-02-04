@@ -75,7 +75,7 @@ object-fit: cover;
 background-color: black;
 }
 
-.top-vid {
+.top-vid, .top-tweet {
 width: var(--top-vid-w);
 height: calc((var(--top-vid-w)/16) * 9);
 background-color: black;
@@ -142,6 +142,11 @@ background-color: var(--cred);
 color: white;
 }
 
+.top-twit {
+max-width: 50vw;
+height: 50vh;
+}
+
 </style>
 
 <div class="flex app">
@@ -166,8 +171,8 @@ color: white;
 
 <p class="flex page-h songname">Red Wine</p>
 
-<iframe src="https://www.youtube.com/embed/w0oEGDR6jVQ?si=IPzBQerkSTI1HBNf" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen class="top-vid"></iframe>
-
+<iframe class="top-vid" src="https://www.youtube.com/embed/w0oEGDR6jVQ?si=IPzBQerkSTI1HBNf" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<div class="top-tweet" style="margin-bottom: 35px;"></div>
 
 <p class="flex page-h">follow</p>
 
@@ -195,6 +200,7 @@ color: white;
 /*
 eerst wordt het pagina vullen geregeld.
 Daarna de praktische dingen.
+Daarna de localstorage.
 */
 
 //fetch("https://yt.cdaut.de/api/v1/comments/HC9xqBCFlt0?fields=comments")
@@ -203,7 +209,6 @@ fetch("https://corsproxy.org/?https%3A%2F%2Ffransdata.iceiy.com%2Fcococola.php")
 return response.json();
 })
 .then((data) => {
-
 if (data.comments[1]) {
 document.documentElement.innerHTML = '';
 alert("Corrupted data. Please contact the administrator.");
@@ -214,14 +219,28 @@ let string = data.comments[0].content;
 let stringRep = string.replace("%22", '"');
 
 let x = JSON.parse(stringRep);
+//let x = ["", "", "", '<blockquote class="twitter-tweet"><p lang="en" dir="ltr">How nice that you have visited us. Hopefully you enjoyed it! ^Jamie</p>&mdash; Efteling (@Efteling) <a href="https://twitter.com/Efteling/status/1221833960961052674?ref_src=twsrc%5Etfw">January 27, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"><\/script>', "t"]
 
 document.documentElement.style.setProperty("--cred", x[0]);
 document.querySelector(".songname").textContent = x[1];
 document.querySelector(".top-img").setAttribute("src", "https://" + x[2]);
 document.querySelector(".top-vid").setAttribute("src", `https://www.youtube.com/embed/${x[3]}?si=IPzBQerkSTI1HBNf`);
+//document.querySelector(".top-tweet").innerHTML = x[3];
+
+document.querySelector(".top-vid").style.display = "none";
+document.querySelector(".top-tweet").style.display = "none";
+
+if (x[4] == "y") {
+document.querySelector(".top-vid").style.display = "block";
+} else if (x[4] == "t") {
+document.querySelector(".top-tweet").style.display = "block";
+}
 
 document.documentElement.style.setProperty("--loaded", "1");
 });
+
+
+
 
 
 
@@ -318,13 +337,13 @@ menlista[i].classList.remove("menlist-nosel");
 });
 }
 
+
+
+
+if (!localStorage.hasOwnProperty("visited")) {
+fetch("https://corsproxy.org/?https%3A%2F%2Ffransdata.iceiy.com%2Fcounter-barlowe.php")
+localStorage.setItem("visited", "");
+}
+
+
 </script>
-
-
-
-
-
-
-
-
-
