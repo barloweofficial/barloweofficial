@@ -147,7 +147,28 @@ max-width: 50vw;
 height: 50vh;
 }
 
+.damnitknop {
+/*background-color: green;*/
+height: 10vh;
+width: 10vh;
+position: absolute;
+right: 0;
+bottom: 0;
+}
+
+.visitors {
+position: absolute;
+z-index: -1000;
+}
+
 </style>
+
+<div class="visitors">
+ <a href='https://www.free-counters.org/'>Counter</a> <script type='text/javascript' src='https://www.freevisitorcounters.com/auth.php?id=373366a611ab8da27a5d156fbd2073906314ee73'></script>
+<script type="text/javascript" src="https://freevisitorcounters.com/en/home/counter/1138540/t/0"></script>
+</div>
+
+
 
 <div class="flex app">
 
@@ -159,6 +180,7 @@ height: 50vh;
 <div class="flex menlist">
 <a class="ghost-btn" onclick="menu_close()">home</a>
 <a class="ghost-btn menlist-nosel" href="https://www.youtube.com/@barloweofficial/?sub_confirmation=1" target="_blank">subscribe</a>
+<div class="damnitknop"></div>
 </div><!--menlist-->
 
 <div style="height: 20vh;"></div>
@@ -239,8 +261,7 @@ document.querySelector(".top-tweet").style.display = "block";
 document.documentElement.style.setProperty("--loaded", "1");
 });
 
-
-
+//document.documentElement.style.setProperty("--loaded", "1");
 
 
 
@@ -340,10 +361,14 @@ menlista[i].classList.remove("menlist-nosel");
 
 
 
-if (!localStorage.hasOwnProperty("visited")) {
-fetch("https://corsproxy.org/?https%3A%2F%2Ffransdata.iceiy.com%2Fcounter-barlowe.php")
-localStorage.setItem("visited", "");
+//damnitknop
+let damnit = 0;
+let damnitknop = document.querySelector(".damnitknop");
+damnitknop.addEventListener("click", () => {
+damnit += 1;
+if (damnit == 5) {
+document.querySelector(".visitors").style.zIndex = "1000";
 }
-
+});
 
 </script>
